@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function Card({ link, name }) {
-  const [clicked, setClicked] = useState(false);
-
-  function handleClick() {
-    setClicked(true);
-  }
-
+export default function Card({ link, name, id }) {
   return (
-    <div onClick={handleClick}>
+    <div className="card" id={id}>
       <img src={link} alt={name}></img>
       <p>{name}</p>
     </div>
