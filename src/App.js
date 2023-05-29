@@ -80,45 +80,44 @@ function App() {
     setDeck(newDeck);
   }
 
-  function incrementScore() {
-    setScore(score + 1);
-    if (score > best) {
-      setBest(best + 1);
+  function handleClick(id) {
+    if (cardsClicked.includes(id)) {
+      setScore(0);
+      setCardsClicked([]);
+    } else {
+      setCardsClicked([...cardsClicked, id]);
+      setScore(score + 1);
+      if (score === best) setBest(best + 1);
     }
     shuffleDeck(deck);
-  }
-
-  function resetGame(clickState) {
-    setScore(0);
-    shuffleDeck(deck);
-    deck.forEach((card) => {});
   }
 
   useEffect(() => {
-    function handleClick(e) {
-      const idClicked = e.target.id;
-      console.log(idClicked);
-      shuffleDeck(deck);
-    }
-
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card) => {
-      card.addEventListener("click", handleClick);
-    });
-
-    return () => {
-      cards.forEach((card) => {
-        card.removeEventListener("click", handleClick);
-      });
-    };
-  });
+    shuffleDeck(deck);
+    console.log("Component Did Mount");
+    console.log("-------------------");
+  }, []);
 
   return (
     <div className="App">
       <Header />
       <Score current={score} best={best} />
       {deck.map((card) => (
-        <Card link={card.link} name={card.name} key={card.key} id={card.key} />
+        <Card
+          shuffleDeck={shuffleDeck}
+          deck={deck}
+          setDeck={setDeck}
+          setCardsClicked={setCardsClicked}
+          setBest={setBest}
+          setScore={setScore}
+          cardsClicked={cardsClicked}
+          score={score}
+          best={best}
+          link={card.link}
+          name={card.name}
+          key={card.key}
+          id={card.key}
+        />
       ))}
     </div>
   );
