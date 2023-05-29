@@ -81,6 +81,7 @@ function App() {
   }
 
   function handleClick(id) {
+    console.log("Click");
     if (cardsClicked.includes(id)) {
       setScore(0);
       setCardsClicked([]);
@@ -94,31 +95,23 @@ function App() {
 
   useEffect(() => {
     shuffleDeck(deck);
-    console.log("Component Did Mount");
-    console.log("-------------------");
   }, []);
 
   return (
     <div className="App">
       <Header />
       <Score current={score} best={best} />
-      {deck.map((card) => (
-        <Card
-          shuffleDeck={shuffleDeck}
-          deck={deck}
-          setDeck={setDeck}
-          setCardsClicked={setCardsClicked}
-          setBest={setBest}
-          setScore={setScore}
-          cardsClicked={cardsClicked}
-          score={score}
-          best={best}
-          link={card.link}
-          name={card.name}
-          key={card.key}
-          id={card.key}
-        />
-      ))}
+      <div className="cards-container">
+        {deck.map((card) => (
+          <Card
+            handleClick={handleClick}
+            link={card.link}
+            name={card.name}
+            key={card.key}
+            id={card.key}
+          />
+        ))}
+      </div>
     </div>
   );
 }
